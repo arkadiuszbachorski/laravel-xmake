@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Quez\Xmake\Commands;
+namespace ArkadiuszBachorski\Xmake\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Arr;

@@ -2,12 +2,12 @@
 
 namespace ArkadiuszBachorski\Xmake;
 
-use Quez\Xmake\Commands\ControllerMakeCommand;
-use Quez\Xmake\Commands\ModelMakeCommand;
-use Quez\Xmake\Commands\FactoryMakeCommand;
-use Quez\Xmake\Commands\MigrationMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\ControllerMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\ModelMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\FactoryMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\MigrationMakeCommand;
 use Illuminate\Support\ServiceProvider;
-use Quez\Xmake\Commands\RequestMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\RequestMakeCommand;
 
 
 class XmakeServiceProvider extends ServiceProvider

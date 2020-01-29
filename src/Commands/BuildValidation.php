@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Quez\Xmake\Commands;
+namespace ArkadiuszBachorski\Xmake\Commands;
 
 
 trait BuildValidation
