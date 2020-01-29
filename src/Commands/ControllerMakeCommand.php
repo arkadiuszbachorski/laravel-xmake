@@ -259,8 +259,8 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generate a resource controller for the given model.'],
             ['request', 'r', InputOption::VALUE_OPTIONAL, 'Generate controller with injected given request'],
+            ['fields', null, InputOption::VALUE_OPTIONAL, 'Get fields array, use comma as separator'],
             ['api', null, InputOption::VALUE_NONE, 'Change responses to API'],
-            ['fields', null, InputOption::VALUE_NONE, 'Get fields array, use comma as separator'],
         ];
     }
 }

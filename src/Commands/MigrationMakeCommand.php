@@ -173,7 +173,7 @@ class MigrationMakeCommand extends ExtendedGeneratorCommand
     protected function getOptions()
     {
         return [
-            ['create', 'm', InputOption::VALUE_REQUIRED, 'Generate a resource controller for the given model.'],
+            ['create', 'm', InputOption::VALUE_REQUIRED, 'Table name'],
             ['fields', null, InputOption::VALUE_OPTIONAL, 'Get fields array, use comma as separator'],
         ];
     }

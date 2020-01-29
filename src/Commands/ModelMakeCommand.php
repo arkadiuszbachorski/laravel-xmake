@@ -165,19 +165,12 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
     {
         return [
             ['force', null, InputOption::VALUE_NONE, 'Create the class even if the model already exists'],
-
             ['api', null, InputOption::VALUE_NONE, 'Create API Controller'],
-
             ['fields', null, InputOption::VALUE_OPTIONAL, 'Get fields array, use comma as separator'],
-
             ['request', 'r', InputOption::VALUE_NONE, 'Create a new request file for the model'],
-
-            ['all', 'a', InputOption::VALUE_NONE, 'Generate a migration, factory, and resource controller for the model'],
-
+            ['all', 'a', InputOption::VALUE_NONE, 'Create everything for the model'],
             ['controller', 'c', InputOption::VALUE_NONE, 'Create a new controller for the model'],
-
             ['factory', 'f', InputOption::VALUE_NONE, 'Create a new factory for the model'],
-
             ['migration', 'm', InputOption::VALUE_NONE, 'Create a new migration file for the model'],
 
         ];
