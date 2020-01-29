@@ -1,5 +1,5 @@
 {
-  "name": "arkadiuszbachorski/xmake",
+  "name": "arkadiuszbachorski/laravel-xmake",
   "version": "1.0.0",
   "description": "Extended Laravel Artisan Make Command",
   "keywords": ["laravel","artisan", "make", "xmake", "command"],
