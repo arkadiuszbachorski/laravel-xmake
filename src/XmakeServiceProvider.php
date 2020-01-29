@@ -1,6 +1,6 @@
 <?php
 
-namespace Quez\Xmake;
+namespace ArkadiuszBachorski\Xmake;
 
 use Quez\Xmake\Commands\ControllerMakeCommand;
 use Quez\Xmake\Commands\ModelMakeCommand;
