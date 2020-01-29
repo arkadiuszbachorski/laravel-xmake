@@ -143,7 +143,7 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
 
         if (!class_exists($modelClass)) {
             if ($this->confirm("A {$modelClass} model does not exist. Do you want to generate it?", true)) {
-                $this->call('make:xmodel', ['name' => $modelClass]);
+                $this->call('xmake:model', ['name' => $modelClass]);
             }
         }
 
