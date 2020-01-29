@@ -5,6 +5,7 @@
   "keywords": ["laravel","artisan", "make", "xmake", "command"],
   "homepage": "https://github.com/arkadiuszbachorski/xmake",
   "type": "library",
+  "license": "MIT",
   "authors": [
     {
       "name": "Arkadiusz Bachorski",
