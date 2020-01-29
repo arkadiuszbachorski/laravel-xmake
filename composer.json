@@ -2,6 +2,8 @@
   "name": "arkadiuszbachorski/xmake",
   "version": "1.0.0",
   "description": "Extended Laravel Artisan Make Command",
+  "keywords": ["laravel","artisan", "make", "xmake", "command"],
+  "homepage": "https://github.com/arkadiuszbachorski/xmake",
   "type": "library",
   "authors": [
     {
