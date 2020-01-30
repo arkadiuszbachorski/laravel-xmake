@@ -47,23 +47,18 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
             $this->input->setOption('migration', true);
             $this->input->setOption('controller', true);
             $this->input->setOption('request', true);
+            $this->input->setOption('seeder', true);
         }
 
-        if ($this->option('factory')) {
-            $this->createFactory();
-        }
+        if ($this->option('factory')) $this->createFactory();
 
-        if ($this->option('migration')) {
-            $this->createMigration();
-        }
+        if ($this->option('seeder')) $this->createSeeder();
 
-        if ($this->option('request')) {
-            $this->createRequest();
-        }
+        if ($this->option('migration')) $this->createMigration();
 
-        if ($this->option('controller')) {
-            $this->createController();
-        }
+        if ($this->option('request')) $this->createRequest();
+
+        if ($this->option('controller')) $this->createController();
     }
 
     /**
@@ -85,6 +80,23 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
         }
 
         $this->call('xmake:factory', $args);
+    }
+
+    /**
+     * Create a model seeder for the model.
+     *
+     * @return void
+     */
+    protected function createSeeder()
+    {
+        $model = class_basename($this->getNameInput());
+
+        $args = [
+            'name' => "{$model}Seeder",
+            '--model' => $model,
+        ];
+
+        $this->call('xmake:seeder', $args);
     }
 
     /**
@@ -168,11 +180,11 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
             ['api', null, InputOption::VALUE_NONE, 'Create API Controller'],
             ['fields', null, InputOption::VALUE_OPTIONAL, 'Get fields array, use comma as separator'],
             ['request', 'r', InputOption::VALUE_NONE, 'Create a new request file for the model'],
-            ['all', 'a', InputOption::VALUE_NONE, 'Create everything for the model'],
             ['controller', 'c', InputOption::VALUE_NONE, 'Create a new controller for the model'],
             ['factory', 'f', InputOption::VALUE_NONE, 'Create a new factory for the model'],
             ['migration', 'm', InputOption::VALUE_NONE, 'Create a new migration file for the model'],
-
+            ['seeder', 's', InputOption::VALUE_NONE, 'Create a new seeder file for the model'],
+            ['all', 'a', InputOption::VALUE_NONE, 'Create everything for the model'],
         ];
     }
 }
