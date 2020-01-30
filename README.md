@@ -50,18 +50,161 @@ php artisan vendor:publish --tag=xmake-resources
 Command:
 
 ```shell
-php artisan xmake:controller FoobarController --model=Foobar --request=FoobarRequest --fields=title,foo,bar
+php artisan xmake:controller FoobarController --model=Foobar --request=FoobarRequest --fields=title,foo,bar --api
 ```
 
-Result in:
-
+<details>
+<summary>Results</summary>
+  
+_Controller_
 ```php
-$todo = "lorem ipsum";
-```
+<?php
 
-```php
-$todo = "lorem ipsum";
+namespace App\Http\Controllers;
+
+use App\Foobar;
+use App\Http\Requests\FoobarRequest;
+
+class FoobarController extends Controller
+{
+  /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+  public function index()
+  {
+      $foobars = Foobar::all();
+
+      return response()->json([]);
+  }
+
+  /**
+   * Show the form for creating a new resource.
+   *
+   * @return Response
+   */
+  public function create()
+  {
+      return response()->json([]);
+  }
+
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  FoobarRequest  $request
+   * @return Response
+   */
+  public function store(FoobarRequest $request)
+  {
+      Foobar::create($request->validated());
+
+      return response()->json([]);
+  }
+
+  /**
+   * Display the specified resource.
+   *
+   * @param  Foobar $foobar
+   * @return \Illuminate\Http\Response
+   */
+  public function show(Foobar $foobar)
+  {
+      return response()->json([]);
+  }
+
+  /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  Foobar $foobar
+   * @return \Illuminate\Http\Response
+   */
+  public function edit(Foobar $foobar)
+  {
+      return response()->json([]);
+  }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  FoobarRequest  $request
+   * @param  Foobar $foobar
+   * @return \Illuminate\Http\Response
+   */
+  public function update(FoobarRequest $request, Foobar $foobar)
+  {
+      $foobar->update($request->validated());
+
+      return response()->json([]);
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  Foobar $foobar
+   * @return \Illuminate\Http\Response
+   * @throws \Exception
+   */
+  public function destroy(Foobar $foobar)
+  {
+      $foobar->delete();
+
+      return response()->json([]);
+  }
+}
 ```
+  
+_Model_
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Foobar extends Model
+{
+  protected $guarded = [];
+}
+```
+  
+_Request_
+```php
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class FoobarRequest extends FormRequest
+{
+  /**
+   * Determine if the user is authorized to make this request.
+   *
+   * @return bool
+   */
+  public function authorize()
+  {
+      return false;
+  }
+
+  /**
+   * Get the validation rules that apply to the request.
+   *
+   * @return array
+   */
+  public function rules()
+  {
+      return [
+          'title' => '',
+          'foo' => '',
+          'bar' => '',
+      ];
+  }
+}
+```
+  
+</details>
 
 ## To-do list
 
@@ -83,6 +226,7 @@ $todo = "lorem ipsum";
     - [xmake:migration](#xmakemigration)
     - [xmake:request](#xmakerequest)
     - [xmake:factory](#xmakefactory)
+    - [Summary](#summary)
 
 ### Config
 
@@ -198,6 +342,48 @@ It calls xmake:controller with provided --fields, --api flag, name based on mode
 ###### -all -a
 It's equivalent for -f -m -r -c.
 
+<details>
+<summary>Example</summary>
+
+```shell
+php artisan xmake:model Foobar --fields=foo,bar --factory
+```
+
+Result:
+
+_Foobar.php_
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Foobar extends Model
+{
+  protected $guarded = [];
+}
+```
+
+_FoobarFactory.php_
+```php
+<?php
+
+/* @var $factory \Illuminate\Database\Eloquent\Factory */
+
+use App\Foobar;
+use Faker\Generator as Faker;
+
+$factory->define(Foobar::class, function (Faker $faker) {
+    return [
+        'foo' => $faker->sentence(2),
+        'bar' => $faker->,
+    ];
+});
+```
+
+</details>
+
 #### xmake:controller
 
 It creates controller with:
@@ -219,21 +405,138 @@ You can provide fields for validation there.
 ###### --request -r 
 It injects given request to create and update methods. If the file doesn't exist - it can be created with fields you provided. 
 
-I.e.
+<details>
+<summary>Example</summary>
 
 ```shell
-php artisan xmake:controller FoobarController --api --request=FoobarRequest
+php artisan xmake:controller FoobarController --api --fields=foo,bar --model=Foobar
 ```
 
 Result:
 
 ```php
-$todo = "lorem ipsum";
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Foobar;
+use Illuminate\Http\Request;
+
+class FoobarController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $foobars = Foobar::all();
+
+        return response()->json([]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return response()->json([]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'foo' => 'string|nullable',
+            'bar' => '',
+        ]);
+
+        Foobar::create($data);
+
+        return response()->json([]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  Foobar $foobar
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Foobar $foobar)
+    {
+        return response()->json([]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  Foobar $foobar
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Foobar $foobar)
+    {
+        return response()->json([]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Request  $request
+     * @param  Foobar $foobar
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Foobar $foobar)
+    {
+        $data = $request->validate([
+            'foo' => 'string|nullable',
+            'bar' => '',
+        ]);
+
+
+        $foobar->update($data);
+
+        return response()->json([]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  Foobar $foobar
+     * @return \Illuminate\Http\Response
+     * @throws \Exception
+     */
+    public function destroy(Foobar $foobar)
+    {
+        $foobar->delete();
+
+        return response()->json([]);
+    }
+}
 ```
+
+</details>
 
 #### xmake:migration
 
 It creates migration with given fields prepared or filled.
+
+##### Available options
+
+###### --create
+Table name
+
+###### --fields
+
+<details>
+<summary>Example</summary>
 
 ```shell
 php artisan xmake:migration create_foobar_table --create=foobar --fields=foo,bar
@@ -242,14 +545,50 @@ php artisan xmake:migration create_foobar_table --create=foobar --fields=foo,bar
 Result:
 
 ```php
-$todo = "lorem ipsum";
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateFoobarTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('foobar', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('foo', 20)->default("test")->nullable();
+            $table->('bar');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('foobar');
+    }
+}
 ```
+
+</details>
 
 
 #### xmake:request
 
 It creates request with given validation rules prepared or filled.
 
+<details>
+<summary>Example</summary>
 ```shell
 php artisan xmake:request FoobarRequest --fields=foo,bar
 ```
@@ -257,13 +596,47 @@ php artisan xmake:request FoobarRequest --fields=foo,bar
 Result:
 
 ```php
-$todo = "lorem ipsum";
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class FoobarRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'foo' => 'string|nullable',
+            'bar' => '',
+        ];
+    }
+}
 ```
+</details>
+
 
 #### xmake:factory
 
 It creates factory with given factory rules prepared or filled.
 
+<details>
+<summary>Example</summary>
 ```shell
 php artisan xmake:factory FoobarFactory --fields=foo,bar
 ```
@@ -271,5 +644,31 @@ php artisan xmake:factory FoobarFactory --fields=foo,bar
 Result:
 
 ```php
-$todo = "lorem ipsum";
+<?php
+
+/* @var $factory \Illuminate\Database\Eloquent\Factory */
+
+use App\Foobar;
+use Faker\Generator as Faker;
+
+$factory->define(Foobar::class, function (Faker $faker) {
+    return [
+        'foo' => $faker->sentence(2),
+        'bar' => $faker->,
+    ];
+});
 ```
+</details>
+
+
+#### Summary
+
+You should notice that all the above resources you can create with one command:
+
+```shell
+php artisan xmake:model Foobar --all --api --fields=foo,bar
+```
+
+Result:
+
+**All the files above**
