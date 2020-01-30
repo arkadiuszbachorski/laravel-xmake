@@ -53,8 +53,7 @@ Command:
 php artisan xmake:controller FoobarController --model=Foobar --request=FoobarRequest --fields=title,foo,bar --api
 ```
 
-<details>
-<summary>Results</summary>
+Result
   
 _Controller_
 
@@ -207,7 +206,6 @@ class FoobarRequest extends FormRequest
 }
 ```
   
-</details>
 
 ## To-do list
 
