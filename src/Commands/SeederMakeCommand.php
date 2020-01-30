@@ -66,7 +66,7 @@ class SeederMakeCommand extends ExtendedGeneratorCommand
 
     protected function buildAmountReplacement(array $replace)
     {
-        $amount = $this->option('amount') ?? 25;
+        $amount = $this->option('amount') ?? config('xmake.seeder.defaultAmount');
 
         return array_merge($replace, [
             'DummyAmount' => $amount,

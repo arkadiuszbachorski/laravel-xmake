@@ -28,5 +28,8 @@ return [
             'update' => 'update',
             'destroy' => 'destroy',
         ],
+    ],
+    'seeder' => [
+        'defaultAmount' => 50,
     ]
 ];
