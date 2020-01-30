@@ -57,6 +57,7 @@ php artisan xmake:controller FoobarController --model=Foobar --request=FoobarReq
 <summary>Results</summary>
   
 _Controller_
+
 ```php
 <?php
 
@@ -155,6 +156,7 @@ class FoobarController extends Controller
 ```
   
 _Model_
+
 ```php
 <?php
 
@@ -169,6 +171,7 @@ class Foobar extends Model
 ```
   
 _Request_
+
 ```php
 <?php
 
@@ -589,6 +592,7 @@ It creates request with given validation rules prepared or filled.
 
 <details>
 <summary>Example</summary>
+
 ```shell
 php artisan xmake:request FoobarRequest --fields=foo,bar
 ```
@@ -637,6 +641,7 @@ It creates factory with given factory rules prepared or filled.
 
 <details>
 <summary>Example</summary>
+
 ```shell
 php artisan xmake:factory FoobarFactory --fields=foo,bar
 ```
