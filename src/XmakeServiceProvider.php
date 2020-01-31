@@ -6,6 +6,7 @@ use ArkadiuszBachorski\Xmake\Commands\ControllerMakeCommand;
 use ArkadiuszBachorski\Xmake\Commands\ModelMakeCommand;
 use ArkadiuszBachorski\Xmake\Commands\FactoryMakeCommand;
 use ArkadiuszBachorski\Xmake\Commands\MigrationMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\ResourceMakeCommand;
 use ArkadiuszBachorski\Xmake\Commands\SeederMakeCommand;
 use Illuminate\Support\ServiceProvider;
 use ArkadiuszBachorski\Xmake\Commands\RequestMakeCommand;
@@ -23,6 +24,7 @@ class XmakeServiceProvider extends ServiceProvider
                 FactoryMakeCommand::class,
                 RequestMakeCommand::class,
                 SeederMakeCommand::class,
+                ResourceMakeCommand::class,
             ]);
         }
 
