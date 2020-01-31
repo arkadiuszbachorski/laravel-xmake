@@ -28,5 +28,9 @@ return [
             'update' => 'update',
             'destroy' => 'destroy',
         ],
+    ],
+    // Default amount used in seeders if not provided by --amount option
+    'seeder' => [
+        'defaultAmount' => 50,
     ]
 ];

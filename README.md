@@ -227,6 +227,7 @@ class FoobarRequest extends FormRequest
     - [xmake:migration](#xmakemigration)
     - [xmake:request](#xmakerequest)
     - [xmake:factory](#xmakefactory)
+    - [xmake:seeder](#xmakeseeder)
     - [Summary](#summary)
 
 ### Config
@@ -261,6 +262,10 @@ _config/xmake.php_
             'update' => 'update',
             'destroy' => 'destroy',
         ],
+    ],
+    // Default amount used in seeders if not provided by --amount option
+    'seeder' => [
+        'defaultAmount' => 50,
     ]
 ];
 ```
@@ -334,6 +339,9 @@ It calls xmake:factory with provided --fields and name based on model name.
 ###### --migration -m
 It calls xmake:migration with provided --fields and name based on model name.
 
+###### --seeder -s
+It calls xmake:seeder with provided --model and name based on model name.
+
 ###### --request -r
 It calls xmake:request with provided --fields and name based on model name.
 
@@ -341,7 +349,7 @@ It calls xmake:request with provided --fields and name based on model name.
 It calls xmake:controller with provided --fields, --api flag, name based on model name, --model based on model and --request if you provided it.
 
 ###### -all -a
-It's equivalent for -f -m -r -c.
+It's equivalent for -f -m -r -c -s.
 
 <details>
 <summary>Example</summary>
@@ -660,6 +668,48 @@ $factory->define(Foobar::class, function (Faker $faker) {
         'bar' => $faker->,
     ];
 });
+```
+</details>
+
+#### xmake:seeder
+
+It creates seeder with given model.
+
+##### Available options
+
+###### --model
+Model name.
+
+###### --amount
+Number of models to be created in seeder. Default value can be changed in config.
+
+<details>
+<summary>Example</summary>
+
+```shell
+php artisan xmake:seeder FoobarSeeder --model=foo,bar --amount=33
+```
+
+Result:
+
+```php
+<?php
+
+use Illuminate\Database\Seeder;
+use App\Foobar;
+
+class FoobarSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        factory(Foobar::class, 33);
+    }
+}
 ```
 </details>
 
