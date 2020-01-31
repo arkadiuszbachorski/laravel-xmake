@@ -41,7 +41,7 @@ php artisan vendor:publish --tag=xmake-resources
 
 ## Features
 
-- Create model with related controller, request, migration and factory with just one command
+- Create model with related controller, request, migration, seeder and factory with just one command
 - Provide fields in one place, rest will be prepared or even filled for you
 - Easily customize stubs for your needs
 
@@ -210,7 +210,6 @@ class FoobarRequest extends FormRequest
 ## To-do list
 
 - "Resource" create command
-- "Seed" create command
 - Change method of fields data providing to array of objects
 - Guessing factory based on validation and migration field type
 - Guessing migration field type based on validation
