@@ -14,7 +14,7 @@ trait BuildValidation
             if (!preg_match('/^\[/m',$item['validation'])) {
                 $item['validation'] = "'{$item['validation']}'";
             }
-            $validation .= $this->prefix("'{$field}' => {$item['validation']},", 3, true);
+            $validation .= $this->prefix("'{$item['name']}' => {$item['validation']},", 3, true);
         }
 
         return $validation;
