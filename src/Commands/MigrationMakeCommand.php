@@ -137,7 +137,7 @@ class MigrationMakeCommand extends ExtendedGeneratorCommand
         }
 
         return array_merge($replace, [
-            'DummyFields' => $data,
+            'DummyFields' => $data ?? '',
         ]);
 
     }
