@@ -34,6 +34,12 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
 
     protected $stubName = "controller.model.stub";
 
+    protected function addSuffixToStubName(string $name)
+    {
+        $this->stubName = str_replace('.stub', "$name.stub", $this->stubName);
+    }
+
+
     /**
      * Get the stub file for the generator.
      *
@@ -47,13 +53,11 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
             dd("If you don't need any of advanced options - use native Artisan Make command then.");
         }
 
-        if ($this->option('api')) {
-            $this->stubName = str_replace('.stub', '.api.stub', $this->stubName);
-        }
+        if ($this->option('api')) $this->addSuffixToStubName('.api');
 
-        if ($this->option('request')) {
-            $this->stubName = str_replace('.stub', '.request.stub', $this->stubName);
-        }
+        if ($this->option('request')) $this->addSuffixToStubName('.request');
+
+        if ($this->option('resource')) $this->addSuffixToStubName('.resource');
 
 
         return $this->getStubDir();
@@ -259,6 +263,7 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generate a resource controller for the given model.'],
             ['request', 'r', InputOption::VALUE_OPTIONAL, 'Generate controller with injected given request'],
+            ['resource', 'x', InputOption::VALUE_OPTIONAL, 'Generate controller with injected given resource returns'],
             ['fields', null, InputOption::VALUE_OPTIONAL, 'Get fields array, use comma as separator'],
             ['api', null, InputOption::VALUE_NONE, 'Change responses to API'],
         ];
