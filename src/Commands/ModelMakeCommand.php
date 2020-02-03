@@ -43,11 +43,10 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
         }
 
         if ($this->option('all')) {
-            $this->input->setOption('factory', true);
-            $this->input->setOption('migration', true);
-            $this->input->setOption('controller', true);
-            $this->input->setOption('request', true);
-            $this->input->setOption('seeder', true);
+            $options = ['factory', 'migration', 'controller', 'request', 'seeder', 'resource'];
+            foreach ($options as $option) {
+                $this->input->setOption($option, true);
+            }
         }
 
         if ($this->option('factory')) $this->createFactory();
@@ -57,6 +56,8 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
         if ($this->option('migration')) $this->createMigration();
 
         if ($this->option('request')) $this->createRequest();
+
+        if ($this->option('resource')) $this->createResource();
 
         if ($this->option('controller')) $this->createController();
     }
@@ -82,6 +83,11 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
         $this->call('xmake:factory', $args);
     }
 
+    protected function getModelBasename()
+    {
+        return class_basename($this->getNameInput());
+    }
+
     /**
      * Create a model seeder for the model.
      *
@@ -89,7 +95,7 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
      */
     protected function createSeeder()
     {
-        $model = class_basename($this->getNameInput());
+        $model = $this->getModelBasename();
 
         $args = [
             'name' => "{$model}Seeder",
@@ -97,6 +103,23 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
         ];
 
         $this->call('xmake:seeder', $args);
+    }
+
+    /**
+     * Create a model seeder for the model.
+     *
+     * @return void
+     */
+    protected function createResource()
+    {
+        $model = $this->getModelBasename();
+
+        $args = [
+            'name' => "{$model}Resource",
+            '--fields' => $this->option('fields'),
+        ];
+
+        $this->call('xmake:resource', $args);
     }
 
     /**
@@ -138,6 +161,7 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
             '--fields' => $this->option('fields') ?? null,
             '--api' => !!$this->option('api'),
             '--request' => $this->option('request') ? $this->generateRequestName() : null,
+            '--resource' => $this->option('resource') ? "{$modelName}Resource" : null,
         ];
 
         $this->call('xmake:controller', $args);
@@ -180,6 +204,7 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
             ['api', null, InputOption::VALUE_NONE, 'Create API Controller'],
             ['fields', null, InputOption::VALUE_OPTIONAL, 'Get fields array, use comma as separator'],
             ['request', 'r', InputOption::VALUE_NONE, 'Create a new request file for the model'],
+            ['resource', 'x', InputOption::VALUE_NONE, 'Create a new resource file for the model'],
             ['controller', 'c', InputOption::VALUE_NONE, 'Create a new controller for the model'],
             ['factory', 'f', InputOption::VALUE_NONE, 'Create a new factory for the model'],
             ['migration', 'm', InputOption::VALUE_NONE, 'Create a new migration file for the model'],

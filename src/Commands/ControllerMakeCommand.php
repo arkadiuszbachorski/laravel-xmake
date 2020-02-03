@@ -34,6 +34,12 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
 
     protected $stubName = "controller.model.stub";
 
+    protected function addSuffixToStubName(string $name)
+    {
+        $this->stubName = str_replace('.stub', "$name.stub", $this->stubName);
+    }
+
+
     /**
      * Get the stub file for the generator.
      *
@@ -48,12 +54,12 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
         }
 
         if ($this->option('api')) {
-            $this->stubName = str_replace('.stub', '.api.stub', $this->stubName);
-        }
+            $this->addSuffixToStubName('.api');
 
-        if ($this->option('request')) {
-            $this->stubName = str_replace('.stub', '.request.stub', $this->stubName);
-        }
+            if ($this->option('resource')) $this->addSuffixToStubName('.resource');
+        };
+
+        if ($this->option('request')) $this->addSuffixToStubName('.request');
 
 
         return $this->getStubDir();
@@ -98,6 +104,8 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
         $replace = $this->buildMethodsReplacements($replace);
 
         $replace = $this->buildRequestReplacements($replace);
+
+        $replace = $this->buildResourceReplacements($replace);
 
         $replace["use {$controllerNamespace}\Controller;\n"] = '';
 
@@ -226,6 +234,27 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
         ]);
     }
 
+    protected function buildResourceReplacements(array $replace)
+    {
+        if ($this->option('resource')) {
+            $resource = $this->option('resource');
+            $namespacedRequest = "App\Http\Requests\\$resource";
+
+            if (!class_exists($namespacedRequest)) {
+                if ($this->confirm("A {$resource} resource does not exist. Do you want to generate it?", true)) {
+                    $this->call('xmake:resource', [
+                        'name' => $resource,
+                        '--fields' => $this->option('fields'),
+                    ]);
+                }
+            }
+        }
+
+        return array_merge($replace, [
+            'DummyResource' => $resource ?? '',
+        ]);
+    }
+
     /**
      * Get the fully-qualified model class name.
      *
@@ -259,6 +288,7 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generate a resource controller for the given model.'],
             ['request', 'r', InputOption::VALUE_OPTIONAL, 'Generate controller with injected given request'],
+            ['resource', 'x', InputOption::VALUE_OPTIONAL, 'Generate controller with injected given resource returns'],
             ['fields', null, InputOption::VALUE_OPTIONAL, 'Get fields array, use comma as separator'],
             ['api', null, InputOption::VALUE_NONE, 'Change responses to API'],
         ];

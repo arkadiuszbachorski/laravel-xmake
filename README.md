@@ -223,6 +223,7 @@ class FoobarRequest extends FormRequest
 - [Commands](#commands)
     - [xmake:model](#xmakemodel)
     - [xmake:controller](#xmakecontroller)
+    - [xmake:resource](#xmakeresource)
     - [xmake:migration](#xmakemigration)
     - [xmake:request](#xmakerequest)
     - [xmake:factory](#xmakefactory)
@@ -262,9 +263,13 @@ _config/xmake.php_
             'destroy' => 'destroy',
         ],
     ],
-    // Default amount used in seeders if not provided by --amount option
     'seeder' => [
+        // Default amount used in seeders if not provided by --amount option
         'defaultAmount' => 50,
+    ],
+    'resource' => [
+        // Flag that indicates whether resource fields should be parsed to camelCase
+        'camelizeFields' => true,
     ]
 ];
 ```
@@ -335,6 +340,9 @@ It's a flag that matters only if you create controller.
 ###### --factory -f
 It calls xmake:factory with provided --fields and name based on model name.
 
+###### --resource -x
+It calls xmake:resource with provided --fields and name based on model name.
+
 ###### --migration -m
 It calls xmake:migration with provided --fields and name based on model name.
 
@@ -345,10 +353,15 @@ It calls xmake:seeder with provided --model and name based on model name.
 It calls xmake:request with provided --fields and name based on model name.
 
 ###### --controller -c
-It calls xmake:controller with provided --fields, --api flag, name based on model name, --model based on model and --request if you provided it.
+It calls xmake:controller with:
+- --model based on model name
+- given --fields
+- --api flag if provided
+- --request if provided
+- --resource if provided
 
 ###### -all -a
-It's equivalent for -f -m -r -c -s.
+It's equivalent for -f -m -r -c -s -x.
 
 <details>
 <summary>Example</summary>
@@ -409,6 +422,9 @@ It's a flag that changes responses from Blade views to REST API.
 
 ###### --fields
 You can provide fields for validation there.
+
+###### --resource -x
+It injects given resource to index, store, show, edit and update returns. It does nothing when no --api flag provided.
 
 ###### --request -r 
 It injects given request to create and update methods. If the file doesn't exist - it can be created with fields you provided. 
@@ -531,6 +547,54 @@ class FoobarController extends Controller
 ```
 
 </details>
+
+#### xmake:resource
+
+It creates resource with given fields filled. It makes fields name camelCase by default, however it can be changed in config.
+
+##### Available options
+
+###### --fields
+
+<details>
+<summary>Example</summary>
+
+```shell
+php artisan xmake:resource FoobarResource --fields=foo,bar,not_camel_case_field
+```
+
+Result:
+
+```php
+<?php
+
+namespace App\Http\Resources;
+
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class FoobarResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function toArray($request)
+    {
+        return [
+            'foo' => $this->foo,
+            'bar' => $this->bar,
+            'notCamelCaseField' => $this->not_camel_case_field,
+        ];
+    }
+}
+```
+
+</details>
+
+
+
 
 #### xmake:migration
 
