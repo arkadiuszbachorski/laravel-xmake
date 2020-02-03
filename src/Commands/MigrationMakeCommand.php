@@ -117,13 +117,13 @@ class MigrationMakeCommand extends ExtendedGeneratorCommand
                 $item = $this->getElementFromFields($field);
                 $exp = $item['database'];
                 if ($exp !== '') {
-                    $exp = str_replace('NAME', "'".$field."'", $exp);
+                    $exp = str_replace('NAME', "'".$item['name']."'", $exp);
                     if (strpos($item['validation'], 'nullable') !== false) {
                         $exp.='->nullable()';
                     }
                     $parsed = $this->prefix("\$table->{$exp};", 3, false);
                 } else {
-                    $parsed = $this->prefix("\$table->('{$field}');", 3, false);
+                    $parsed = $this->prefix("\$table->('{$item['name']}');", 3, false);
                 }
 
                 if ($first) {
