@@ -53,11 +53,13 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
             dd("If you don't need any of advanced options - use native Artisan Make command then.");
         }
 
-        if ($this->option('api')) $this->addSuffixToStubName('.api');
+        if ($this->option('api')) {
+            $this->addSuffixToStubName('.api');
+
+            if ($this->option('resource')) $this->addSuffixToStubName('.resource');
+        };
 
         if ($this->option('request')) $this->addSuffixToStubName('.request');
-
-        if ($this->option('resource')) $this->addSuffixToStubName('.resource');
 
 
         return $this->getStubDir();
@@ -102,6 +104,8 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
         $replace = $this->buildMethodsReplacements($replace);
 
         $replace = $this->buildRequestReplacements($replace);
+
+        $replace = $this->buildResourceReplacements($replace);
 
         $replace["use {$controllerNamespace}\Controller;\n"] = '';
 
@@ -227,6 +231,27 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
 
         return array_merge($replace, [
             'DummyRequest' => $request ?? '',
+        ]);
+    }
+
+    protected function buildResourceReplacements(array $replace)
+    {
+        if ($this->option('resource')) {
+            $resource = $this->option('resource');
+            $namespacedRequest = "App\Http\Requests\\$resource";
+
+            if (!class_exists($namespacedRequest)) {
+                if ($this->confirm("A {$resource} resource does not exist. Do you want to generate it?", true)) {
+                    $this->call('xmake:resource', [
+                        'name' => $resource,
+                        '--fields' => $this->option('fields'),
+                    ]);
+                }
+            }
+        }
+
+        return array_merge($replace, [
+            'DummyResource' => $resource ?? '',
         ]);
     }
 
