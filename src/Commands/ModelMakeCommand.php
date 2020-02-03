@@ -203,6 +203,7 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
             ['api', null, InputOption::VALUE_NONE, 'Create API Controller'],
             ['fields', null, InputOption::VALUE_OPTIONAL, 'Get fields array, use comma as separator'],
             ['request', 'r', InputOption::VALUE_NONE, 'Create a new request file for the model'],
+            ['resource', 'x', InputOption::VALUE_NONE, 'Create a new resource file for the model'],
             ['controller', 'c', InputOption::VALUE_NONE, 'Create a new controller for the model'],
             ['factory', 'f', InputOption::VALUE_NONE, 'Create a new factory for the model'],
             ['migration', 'm', InputOption::VALUE_NONE, 'Create a new migration file for the model'],

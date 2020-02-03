@@ -222,6 +222,7 @@ class FoobarRequest extends FormRequest
 - [Fields](#fields)
 - [Commands](#commands)
     - [xmake:model](#xmakemodel)
+    - [xmake:resource](#xmakeresource)
     - [xmake:controller](#xmakecontroller)
     - [xmake:migration](#xmakemigration)
     - [xmake:request](#xmakerequest)
@@ -334,6 +335,9 @@ It's a flag that matters only if you create controller.
 
 ###### --factory -f
 It calls xmake:factory with provided --fields and name based on model name.
+
+###### --resource -rs
+It calls xmake:resource with provided --fields and name based on model name.
 
 ###### --migration -m
 It calls xmake:migration with provided --fields and name based on model name.
