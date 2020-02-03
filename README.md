@@ -222,8 +222,8 @@ class FoobarRequest extends FormRequest
 - [Fields](#fields)
 - [Commands](#commands)
     - [xmake:model](#xmakemodel)
-    - [xmake:resource](#xmakeresource)
     - [xmake:controller](#xmakecontroller)
+    - [xmake:resource](#xmakeresource)
     - [xmake:migration](#xmakemigration)
     - [xmake:request](#xmakerequest)
     - [xmake:factory](#xmakefactory)
@@ -263,9 +263,13 @@ _config/xmake.php_
             'destroy' => 'destroy',
         ],
     ],
-    // Default amount used in seeders if not provided by --amount option
     'seeder' => [
+        // Default amount used in seeders if not provided by --amount option
         'defaultAmount' => 50,
+    ],
+    'resource' => [
+        // Flag that indicates whether resource fields should be parsed to camelCase
+        'camelizeFields' => true,
     ]
 ];
 ```
@@ -336,7 +340,7 @@ It's a flag that matters only if you create controller.
 ###### --factory -f
 It calls xmake:factory with provided --fields and name based on model name.
 
-###### --resource -rs
+###### --resource -x
 It calls xmake:resource with provided --fields and name based on model name.
 
 ###### --migration -m
@@ -535,6 +539,54 @@ class FoobarController extends Controller
 ```
 
 </details>
+
+#### xmake:resource
+
+It creates resource with given fields filled. It makes fields name camelCase by default, however it can be changed in config.
+
+##### Available options
+
+###### --fields
+
+<details>
+<summary>Example</summary>
+
+```shell
+php artisan xmake:resource FoobarResource --fields=foo,bar,not_camel_case_field
+```
+
+Result:
+
+```php
+<?php
+
+namespace App\Http\Resources;
+
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class FoobarResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function toArray($request)
+    {
+        return [
+            'foo' => $this->foo,
+            'bar' => $this->bar,
+            'notCamelCaseField' => $this->not_camel_case_field,
+        ];
+    }
+}
+```
+
+</details>
+
+
+
 
 #### xmake:migration
 
