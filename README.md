@@ -209,7 +209,6 @@ class FoobarRequest extends FormRequest
 
 ## To-do list
 
-- "Resource" create command
 - Change method of fields data providing to array of objects
 - Guessing factory based on validation and migration field type
 - Guessing migration field type based on validation
