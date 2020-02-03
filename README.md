@@ -212,7 +212,7 @@ class FoobarRequest extends FormRequest
 - Change method of fields data providing to array of objects
 - Guessing factory based on validation and migration field type
 - Guessing migration field type based on validation
-- Creation wizar
+- Creation wizard
 
 ## Documentation
 
