@@ -29,8 +29,12 @@ return [
             'destroy' => 'destroy',
         ],
     ],
-    // Default amount used in seeders if not provided by --amount option
     'seeder' => [
+        // Default amount used in seeders if not provided by --amount option
         'defaultAmount' => 50,
+    ],
+    'resource' => [
+        // Flag that indicates whether resource fields should be parsed to camelCase
+        'camelizeFields' => true,
     ]
 ];

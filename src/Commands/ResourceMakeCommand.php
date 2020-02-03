@@ -58,7 +58,7 @@ class ResourceMakeCommand extends ExtendedGeneratorCommand
             $this->getFieldsDataIfEmpty();
             foreach ($this->parsedOptionFields as $field) {
                 $item = $this->getElementFromFields($field);
-                $camelName = Str::camel($item['name']);
+                $camelName = config('xmake.resource.camelizeFields') ? Str::camel($item['name']) : $item['name'];
                 $fields .= $this->prefix("'$camelName' => \$this->{$item['name']},", 3, true);
             }
         } else {
