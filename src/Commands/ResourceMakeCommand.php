@@ -62,7 +62,7 @@ class ResourceMakeCommand extends ExtendedGeneratorCommand
                 $fields .= $this->prefix("'$camelName' => \$this->{$item['name']},", 3, true);
             }
         } else {
-            $fields = $this->prefix("//", 2, false);
+            $fields = $this->prefix("//", 2, true);
         }
 
         return array_merge($replace, [
