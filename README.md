@@ -353,10 +353,15 @@ It calls xmake:seeder with provided --model and name based on model name.
 It calls xmake:request with provided --fields and name based on model name.
 
 ###### --controller -c
-It calls xmake:controller with provided --fields, --api flag, name based on model name, --model based on model and --request if you provided it.
+It calls xmake:controller with:
+- --model based on model name
+- given --fields
+- --api flag if provided
+- --request if provided
+- --resource if provided
 
 ###### -all -a
-It's equivalent for -f -m -r -c -s.
+It's equivalent for -f -m -r -c -s -x.
 
 <details>
 <summary>Example</summary>
@@ -417,6 +422,9 @@ It's a flag that changes responses from Blade views to REST API.
 
 ###### --fields
 You can provide fields for validation there.
+
+###### --resource -x
+It injects given resource to index, store, show, edit and update returns. It does nothing when no --api flag provided.
 
 ###### --request -r 
 It injects given request to create and update methods. If the file doesn't exist - it can be created with fields you provided. 
