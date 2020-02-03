@@ -161,6 +161,7 @@ class ModelMakeCommand extends ExtendedGeneratorCommand
             '--fields' => $this->option('fields') ?? null,
             '--api' => !!$this->option('api'),
             '--request' => $this->option('request') ? $this->generateRequestName() : null,
+            '--resource' => $this->option('resource') ? "{$modelName}Resource" : null,
         ];
 
         $this->call('xmake:controller', $args);
