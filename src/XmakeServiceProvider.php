@@ -8,8 +8,9 @@ use ArkadiuszBachorski\Xmake\Commands\FactoryMakeCommand;
 use ArkadiuszBachorski\Xmake\Commands\MigrationMakeCommand;
 use ArkadiuszBachorski\Xmake\Commands\ResourceMakeCommand;
 use ArkadiuszBachorski\Xmake\Commands\SeederMakeCommand;
-use Illuminate\Support\ServiceProvider;
 use ArkadiuszBachorski\Xmake\Commands\RequestMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\XmakeCommand;
+use Illuminate\Support\ServiceProvider;
 
 
 class XmakeServiceProvider extends ServiceProvider
@@ -25,6 +26,7 @@ class XmakeServiceProvider extends ServiceProvider
                 RequestMakeCommand::class,
                 SeederMakeCommand::class,
                 ResourceMakeCommand::class,
+                XmakeCommand::class,
             ]);
         }
 

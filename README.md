@@ -1,5 +1,5 @@
 # Laravel Xmake
-Additional Laravel Artisan xmake command for faster resources creating. Created to speed up developing process and stop typing same things in various places.
+Additional Laravel Artisan xmake command for faster resource creating and scaffolding. Created to speed up developing process and stop typing same things in various places.
 
 ## Table of contents
 
@@ -41,21 +41,22 @@ php artisan vendor:publish --tag=xmake-resources
 
 ## Features
 
-- Create model with related controller, request, migration, seeder and factory with just one command
+- Scaffold your app quicker
+- Create many related files with just one command: model, controller, request, resource, migration, seeder and factory
 - Provide fields in one place, rest will be prepared or even filled for you
 - Easily customize stubs for your needs
 
 ## Usage
 
-Command:
+Example:
 
 ```shell
-php artisan xmake:controller FoobarController --model=Foobar --request=FoobarRequest --fields=title,foo,bar --api
+php artisan xmake -i --fields=title,foo,bar --modelName=Foobar --model --request --controller --api
 ```
 
 Result
   
-_Controller_
+_FoobarController.php_
 
 ```php
 <?php
@@ -154,7 +155,7 @@ class FoobarController extends Controller
 }
 ```
   
-_Model_
+_Foobar.php_
 
 ```php
 <?php
@@ -169,7 +170,7 @@ class Foobar extends Model
 }
 ```
   
-_Request_
+_FoobarRequest.php_
 
 ```php
 <?php
@@ -205,14 +206,14 @@ class FoobarRequest extends FormRequest
   }
 }
 ```
+
+Pretty nice, huh? For more details and possibilities, see documentation.
   
 
 ## To-do list
 
-- Change method of fields data providing to array of objects
 - Guessing factory based on validation and migration field type
 - Guessing migration field type based on validation
-- Creation wizard
 
 ## Documentation
 
@@ -220,6 +221,7 @@ class FoobarRequest extends FormRequest
 - [Stubs](#stubs)
 - [Fields](#fields)
 - [Commands](#commands)
+    - [xmake](#xmake)
     - [xmake:model](#xmakemodel)
     - [xmake:controller](#xmakecontroller)
     - [xmake:resource](#xmakeresource)
@@ -269,7 +271,17 @@ _config/xmake.php_
     'resource' => [
         // Flag that indicates whether resource fields should be parsed to camelCase
         'camelizeFields' => true,
-    ]
+    ],
+    // You can change what will be created if you select "create everything"/"all" option
+    'createEverything' => [
+        'model' => true,
+        'migration' => true,
+        'factory' => true,
+        'seeder' => true,
+        'request' => true,
+        'resource' => true,
+        'controller' => true,
+    ],
 ];
 ```
 
@@ -311,7 +323,9 @@ This means you can completely ignore this file if you would like just list every
 
 ### Commands
 
-Every command has --help, so you can check available options. In examples below I assume _fields.php_ contains:
+Every command has --help, so you can check available options faster than checking here. 
+
+In examples below I assume default config and file _fields.php_ contains:
 
 ```php
 [
@@ -324,49 +338,59 @@ Every command has --help, so you can check available options. In examples below 
 ];
 ```
 
-#### xmake:model
+#### xmake
 
-It simply creates model. However, it's the most complex command, because you can call every other with it. It's probably the one you'll use most often.
+It's a command that will be used most often, because it gives powerful scaffolding ability. It can call every single command listed below. 
+
+Xmake by default runs interactive shell experience. If you would like to create resources even faster - use --instant flag. Results are almost the same, but you can't name your files independently. Probably you wouldn't do it anyway, because auto-naming works great.
 
 ##### Available options
 
+###### --instant -i 
+Use this flag if you want don't want to use interactive shell.
+
+###### --modelName
+This parameter is required, almost every command uses it.
+
 ###### --fields
-Option necessary for other commands.
+Get fields keys array, use comma as separator
+
+###### --all
+Create everything based on your config. By default - it's literally everything.
 
 ###### --api
-It's a flag that matters only if you create controller.
+Create API version of Controller and enable resource creating
 
-###### --factory -f
-It calls xmake:factory with provided --fields and name based on model name.
+###### --model
+Create model with given modelName
 
-###### --resource -x
-It calls xmake:resource with provided --fields and name based on model name.
+###### --migration
+Create migration with given fields prepared or filled
 
-###### --migration -m
-It calls xmake:migration with provided --fields and name based on model name.
+###### --factory
+Create factory with given fields prepared of filled
 
-###### --seeder -s
-It calls xmake:seeder with provided --model and name based on model name.
+###### --seeder
+Create seeder that invokes factory
 
-###### --request -r
-It calls xmake:request with provided --fields and name based on model name.
+###### --request
+Create request with given fields prepared or filled
 
-###### --controller -c
-It calls xmake:controller with:
-- --model based on model name
-- given --fields
-- --api flag if provided
-- --request if provided
-- --resource if provided
+###### --resource
+Create resource with given fields prepared of filled
 
-###### -all -a
-It's equivalent for -f -m -r -c -s -x.
+###### --controller
+Create controller with various options - request, resource and api, based on your previous choices.
+
+
+#### xmake:model
+It simply creates model.
 
 <details>
 <summary>Example</summary>
 
 ```shell
-php artisan xmake:model Foobar --fields=foo,bar --factory
+php artisan xmake:model Foobar
 ```
 
 Result:
@@ -383,23 +407,6 @@ class Foobar extends Model
 {
   protected $guarded = [];
 }
-```
-
-_FoobarFactory.php_
-```php
-<?php
-
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
-use App\Foobar;
-use Faker\Generator as Faker;
-
-$factory->define(Foobar::class, function (Faker $faker) {
-    return [
-        'foo' => $faker->sentence(2),
-        'bar' => $faker->,
-    ];
-});
 ```
 
 </details>
@@ -778,12 +785,8 @@ class FoobarSeeder extends Seeder
 
 #### Summary
 
-You should notice that all the above resources you can create with one command:
+All the above files can be created with just one command:
 
 ```shell
-php artisan xmake:model Foobar --all --api --fields=foo,bar
+php artisan xmake -i --modelName=Foobar --all --api --fields=foo,bar
 ```
-
-Result:
-
-**All the files above**
