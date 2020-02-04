@@ -1,6 +1,6 @@
 <?php
 
-namespace ArkadiuszBachorski\Xmake\Commands;
+namespace ArkadiuszBachorski\Xmake\Commands\MakeCommands;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class ControllerMakeCommand extends ExtendedGeneratorCommand
 {
-    use BuildValidation;
     /**
      * The console command name.
      *

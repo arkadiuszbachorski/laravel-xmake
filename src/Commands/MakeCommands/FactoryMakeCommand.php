@@ -1,34 +1,34 @@
 <?php
 
-namespace ArkadiuszBachorski\Xmake\Commands;
+namespace ArkadiuszBachorski\Xmake\Commands\MakeCommands;
 
 use Illuminate\Support\Arr;
 use Symfony\Component\Console\Input\InputOption;
 
-class SeederMakeCommand extends ExtendedGeneratorCommand
+class FactoryMakeCommand extends ExtendedGeneratorCommand
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'xmake:seeder';
+    protected $name = 'xmake:factory';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new database seeder';
+    protected $description = 'Create a new model factory';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Seeder';
+    protected $type = 'Factory';
 
-    protected $stubName = "seeder.stub";
+    protected $stubName = "factory.stub";
 
 
     /**
@@ -42,7 +42,7 @@ class SeederMakeCommand extends ExtendedGeneratorCommand
         $replace = [];
 
         $replace = $this->buildModelReplacements($replace);
-        $replace = $this->buildAmountReplacement($replace);
+        $replace = $this->buildFieldsReplacements($replace);
 
         return str_replace(
             array_keys($replace), array_values($replace), parent::buildClass($name)
@@ -64,14 +64,18 @@ class SeederMakeCommand extends ExtendedGeneratorCommand
         ]);
     }
 
-    protected function buildAmountReplacement(array $replace)
+    protected function buildFieldsReplacements(array $replace)
     {
-        $amount = $this->option('amount') ?? config('xmake.seeder.defaultAmount');
+        if ($this->option('fields')) {
+            $fields = $this->getFields();
+            $factory = $fields->buildFactory();
+        } else {
+            $factory = $this->prefix("//", 2, true);
+        }
 
         return array_merge($replace, [
-            'DummyAmount' => $amount,
+            'DummyRules' => $factory,
         ]);
-
     }
 
     /**
@@ -86,7 +90,7 @@ class SeederMakeCommand extends ExtendedGeneratorCommand
             ['\\', '/'], '', $this->argument('name')
         );
 
-        return $this->laravel->databasePath()."/seeds/{$name}.php";
+        return $this->laravel->databasePath()."/factories/{$name}.php";
     }
 
     /**
@@ -98,7 +102,7 @@ class SeederMakeCommand extends ExtendedGeneratorCommand
     {
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'The name of the model'],
-            ['amount', null, InputOption::VALUE_OPTIONAL, 'Amount of created'],
+            ['fields', null, InputOption::VALUE_OPTIONAL, 'Get fields array, use comma as separator'],
         ];
     }
 }

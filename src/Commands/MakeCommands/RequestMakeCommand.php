@@ -1,34 +1,34 @@
 <?php
 
-namespace ArkadiuszBachorski\Xmake\Commands;
+namespace ArkadiuszBachorski\Xmake\Commands\MakeCommands;
 
 use Illuminate\Support\Arr;
 use Symfony\Component\Console\Input\InputOption;
 
-class FactoryMakeCommand extends ExtendedGeneratorCommand
+class RequestMakeCommand extends ExtendedGeneratorCommand
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'xmake:factory';
+    protected $name = 'xmake:request';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new model factory';
+    protected $description = 'Create a new request';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Factory';
+    protected $type = 'Request';
 
-    protected $stubName = "factory.stub";
+    protected $stubName = "request.stub";
 
 
     /**
@@ -41,7 +41,6 @@ class FactoryMakeCommand extends ExtendedGeneratorCommand
     {
         $replace = [];
 
-        $replace = $this->buildModelReplacements($replace);
         $replace = $this->buildFieldsReplacements($replace);
 
         return str_replace(
@@ -50,32 +49,18 @@ class FactoryMakeCommand extends ExtendedGeneratorCommand
     }
 
 
-    protected function buildModelReplacements(array $replace)
-    {
-        $namespaceModel = $this->option('model')
-            ? $this->qualifyClass($this->option('model'))
-            : trim($this->rootNamespace(), '\\').'\\Model';
-
-        $model = class_basename($namespaceModel);
-
-        return array_merge($replace, [
-            'NamespacedDummyModel' => $namespaceModel,
-            'DummyModel' => $model,
-        ]);
-    }
-
     protected function buildFieldsReplacements(array $replace)
     {
         if ($this->option('fields')) {
-            $fields = $this->getFields();
-            $factory = $fields->buildFactory();
+            $validation = $this->getFields()->buildValidation(3);
         } else {
-            $factory = $this->prefix("//", 2, true);
+            $validation = $this->prefix("//", 2, false);
         }
 
         return array_merge($replace, [
-            'DummyRules' => $factory,
+            'DummyValidation' => $validation,
         ]);
+
     }
 
     /**
@@ -90,7 +75,7 @@ class FactoryMakeCommand extends ExtendedGeneratorCommand
             ['\\', '/'], '', $this->argument('name')
         );
 
-        return $this->laravel->databasePath()."/factories/{$name}.php";
+        return $this->laravel->basePath()."/app/Http/Requests/{$name}.php";
     }
 
     /**
@@ -101,7 +86,6 @@ class FactoryMakeCommand extends ExtendedGeneratorCommand
     protected function getOptions()
     {
         return [
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'The name of the model'],
             ['fields', null, InputOption::VALUE_OPTIONAL, 'Get fields array, use comma as separator'],
         ];
     }
