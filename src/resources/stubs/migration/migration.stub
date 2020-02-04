@@ -14,8 +14,7 @@ class CreateDummyCNTable extends Migration
     public function up()
     {
         Schema::create('DummyName', function (Blueprint $table) {
-            $table->bigIncrements('id');
-DummyFields
+            $table->bigIncrements('id');DummyFields
             $table->timestamps();
         });
     }
