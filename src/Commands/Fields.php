@@ -81,11 +81,11 @@ class Fields {
         });
     }
 
-    public function buildRequest()
+    public function buildResource()
     {
         return $this->loopThroughFields(function(Field $field, $request) {
             $name = config('xmake.resource.camelizeFields') ? Str::camel($field->name) : $field->name;
-            return $request.$this->prefix("'$name' => \$this->{$field->name};", 3, true);
+            return $request.$this->prefix("'$name' => \$this->{$field->name},", 3, true);
         });
     }
 }
