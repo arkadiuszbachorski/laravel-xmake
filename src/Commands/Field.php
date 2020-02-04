@@ -39,7 +39,7 @@ class Field
 
     protected function addNullableToDatabaseIfAppearsInValidation()
     {
-        if (strpos($this->validation, 'nullable' !== false)) {
+        if (strpos($this->validation, 'nullable' !== false) && strpos($this->database, 'nullable()') === "false") {
             $this->database.='->nullable()';
         }
     }
