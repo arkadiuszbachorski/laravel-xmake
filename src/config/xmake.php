@@ -7,6 +7,10 @@ return [
         // Path where fields.php is expected to exist. This path affects vendors publishing too.
         'fields' => '/resources/xmake',
     ],
+    'database' => [
+        // Flag that indicates whether ->nullable() should be automatically added if provided in validation
+        'addNullableIfAppearsInValidation' => true,
+    ],
     'controller' => [
         // You can change PHPDoc methods captions there
         'docs' => [
@@ -36,6 +40,12 @@ return [
     'resource' => [
         // Flag that indicates whether resource fields should be parsed to camelCase
         'camelizeFields' => true,
+    ],
+    'validation' => [
+        // It enables parsing pipe syntax (i.e. "string|nullable") to array
+        'parseArray' => true,
+        // It enables guessing validation based on database field. I.e. string('foobar') parses to 'string' validation.
+        'guessBasedOnDatabase' => true,
     ],
     // You can change what will be created if you select "create everything"/"all" option
     'createEverything' => [
