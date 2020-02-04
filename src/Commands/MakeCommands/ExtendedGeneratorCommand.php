@@ -3,6 +3,7 @@
 
 namespace ArkadiuszBachorski\Xmake\Commands\MakeCommands;
 
+use ArkadiuszBachorski\Xmake\Commands\Fields;
 use ArkadiuszBachorski\Xmake\Commands\Prefix;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Arr;
