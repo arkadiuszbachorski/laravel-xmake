@@ -37,7 +37,7 @@ return [
         // Flag that indicates whether resource fields should be parsed to camelCase
         'camelizeFields' => true,
     ],
-    // You can change what will be created if you select "create everything" option
+    // You can change what will be created if you select "create everything"/"all" option
     'createEverything' => [
         'model' => true,
         'migration' => true,

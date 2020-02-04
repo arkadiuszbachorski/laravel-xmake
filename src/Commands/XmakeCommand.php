@@ -281,9 +281,9 @@ class XmakeCommand extends Command
             ['model', null, InputOption::VALUE_NONE, 'Create model with given modelName'],
             ['migration', null, InputOption::VALUE_NONE, 'Create migration with given fields prepared or filled'],
             ['factory', null, InputOption::VALUE_NONE, 'Create factory with given fields prepared of filled'],
-            ['seeder', null, InputOption::VALUE_NONE, 'Create seeder that creates a model factory'],
+            ['seeder', null, InputOption::VALUE_NONE, 'Create seeder that invokes factory'],
             ['request', null, InputOption::VALUE_NONE, 'Create request with given fields prepared or filled'],
-            ['resource', null, InputOption::VALUE_NONE, 'Create resource with given fields prepared of rilled'],
+            ['resource', null, InputOption::VALUE_NONE, 'Create resource with given fields prepared of filled'],
             ['controller', null, InputOption::VALUE_NONE, 'Create controller with various options - request, resource and api'],
         ];
     }
