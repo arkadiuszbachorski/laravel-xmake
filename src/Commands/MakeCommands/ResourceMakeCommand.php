@@ -1,35 +1,35 @@
 <?php
 
-namespace ArkadiuszBachorski\Xmake\Commands;
+namespace ArkadiuszBachorski\Xmake\Commands\MakeCommands;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class RequestMakeCommand extends ExtendedGeneratorCommand
+class ResourceMakeCommand extends ExtendedGeneratorCommand
 {
-    use BuildValidation;
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'xmake:request';
+    protected $name = 'xmake:resource';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new request';
+    protected $description = 'Create a new resource';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Request';
+    protected $type = 'Resource';
 
-    protected $stubName = "request.stub";
+    protected $stubName = "resource.stub";
 
 
     /**
@@ -53,14 +53,13 @@ class RequestMakeCommand extends ExtendedGeneratorCommand
     protected function buildFieldsReplacements(array $replace)
     {
         if ($this->option('fields')) {
-            $this->getFieldsDataIfEmpty();
-            $validation = $this->buildValidation();
+            $fields = $this->getFields()->buildRequest();
         } else {
-            $validation = $this->prefix("//", 2, false);
+            $fields = $this->prefix("//", 2, true);
         }
 
         return array_merge($replace, [
-            'DummyValidation' => $validation,
+            'DummyFields' => $fields,
         ]);
 
     }
@@ -77,7 +76,7 @@ class RequestMakeCommand extends ExtendedGeneratorCommand
             ['\\', '/'], '', $this->argument('name')
         );
 
-        return $this->laravel->basePath()."/app/Http/Requests/{$name}.php";
+        return $this->laravel->basePath()."/app/Http/Resources/{$name}.php";
     }
 
     /**

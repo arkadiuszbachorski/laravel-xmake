@@ -1,34 +1,34 @@
 <?php
 
-namespace ArkadiuszBachorski\Xmake\Commands;
+namespace ArkadiuszBachorski\Xmake\Commands\MakeCommands;
 
 use Illuminate\Support\Arr;
 use Symfony\Component\Console\Input\InputOption;
 
-class FactoryMakeCommand extends ExtendedGeneratorCommand
+class SeederMakeCommand extends ExtendedGeneratorCommand
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'xmake:factory';
+    protected $name = 'xmake:seeder';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new model factory';
+    protected $description = 'Create a new database seeder';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Factory';
+    protected $type = 'Seeder';
 
-    protected $stubName = "factory.stub";
+    protected $stubName = "seeder.stub";
 
 
     /**
@@ -42,7 +42,7 @@ class FactoryMakeCommand extends ExtendedGeneratorCommand
         $replace = [];
 
         $replace = $this->buildModelReplacements($replace);
-        $replace = $this->buildFieldsReplacements($replace);
+        $replace = $this->buildAmountReplacement($replace);
 
         return str_replace(
             array_keys($replace), array_values($replace), parent::buildClass($name)
@@ -64,28 +64,12 @@ class FactoryMakeCommand extends ExtendedGeneratorCommand
         ]);
     }
 
-    protected function buildFieldsReplacements(array $replace)
+    protected function buildAmountReplacement(array $replace)
     {
-        if ($this->option('fields')) {
-            $this->getFieldsDataIfEmpty();
-            $validation = '';
-            $first = true;
-            foreach ($this->parsedOptionFields as $field) {
-                $item = $this->getElementFromFields($field);
-                if ($first) {
-                    $parsed = $this->prefix("'{$item['name']}' => \$faker->${item['factory']},", 2, false);
-                    $first = false;
-                } else {
-                    $parsed = $this->prefix("'{$item['name']}' => \$faker->${item['factory']},", 2);
-                }
-                $validation .= $parsed;
-            }
-        } else {
-            $validation = $this->prefix("//", 2, false);
-        }
+        $amount = $this->option('amount') ?? config('xmake.seeder.defaultAmount');
 
         return array_merge($replace, [
-            'DummyRules' => $validation,
+            'DummyAmount' => $amount,
         ]);
 
     }
@@ -102,7 +86,7 @@ class FactoryMakeCommand extends ExtendedGeneratorCommand
             ['\\', '/'], '', $this->argument('name')
         );
 
-        return $this->laravel->databasePath()."/factories/{$name}.php";
+        return $this->laravel->databasePath()."/seeds/{$name}.php";
     }
 
     /**
@@ -114,7 +98,7 @@ class FactoryMakeCommand extends ExtendedGeneratorCommand
     {
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'The name of the model'],
-            ['fields', null, InputOption::VALUE_OPTIONAL, 'Get fields array, use comma as separator'],
+            ['amount', null, InputOption::VALUE_OPTIONAL, 'Amount of created'],
         ];
     }
 }

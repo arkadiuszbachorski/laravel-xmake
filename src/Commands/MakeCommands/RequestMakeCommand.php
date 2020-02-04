@@ -1,36 +1,34 @@
 <?php
 
-namespace ArkadiuszBachorski\Xmake\Commands;
+namespace ArkadiuszBachorski\Xmake\Commands\MakeCommands;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ResourceMakeCommand extends ExtendedGeneratorCommand
+class RequestMakeCommand extends ExtendedGeneratorCommand
 {
-    use BuildValidation;
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'xmake:resource';
+    protected $name = 'xmake:request';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new resource';
+    protected $description = 'Create a new request';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Resource';
+    protected $type = 'Request';
 
-    protected $stubName = "resource.stub";
+    protected $stubName = "request.stub";
 
 
     /**
@@ -53,20 +51,14 @@ class ResourceMakeCommand extends ExtendedGeneratorCommand
 
     protected function buildFieldsReplacements(array $replace)
     {
-        $fields = '';
         if ($this->option('fields')) {
-            $this->getFieldsDataIfEmpty();
-            foreach ($this->parsedOptionFields as $field) {
-                $item = $this->getElementFromFields($field);
-                $camelName = config('xmake.resource.camelizeFields') ? Str::camel($item['name']) : $item['name'];
-                $fields .= $this->prefix("'$camelName' => \$this->{$item['name']},", 3, true);
-            }
+            $validation = $this->getFields()->buildValidation(3);
         } else {
-            $fields = $this->prefix("//", 2, true);
+            $validation = $this->prefix("//", 2, false);
         }
 
         return array_merge($replace, [
-            'DummyFields' => $fields,
+            'DummyValidation' => $validation,
         ]);
 
     }
@@ -83,7 +75,7 @@ class ResourceMakeCommand extends ExtendedGeneratorCommand
             ['\\', '/'], '', $this->argument('name')
         );
 
-        return $this->laravel->basePath()."/app/Http/Resources/{$name}.php";
+        return $this->laravel->basePath()."/app/Http/Requests/{$name}.php";
     }
 
     /**

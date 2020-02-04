@@ -1,6 +1,6 @@
 <?php
 
-namespace ArkadiuszBachorski\Xmake\Commands;
+namespace ArkadiuszBachorski\Xmake\Commands\MakeCommands;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class ControllerMakeCommand extends ExtendedGeneratorCommand
 {
-    use BuildValidation;
     /**
      * The console command name.
      *
@@ -167,9 +166,8 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
     protected function buildFieldsReplacements(array $replace)
     {
         if ($this->option('fields')) {
-            $this->getFieldsDataIfEmpty();
             $validation = $this->prefix('$data = $request->validate([' , 2, false);
-            $validation .= $this->buildValidation();
+            $validation .= $this->getFields()->buildValidation();
             $validation .= $this->prefix("]);", 2, true);
         } else {
             $validation = $this->prefix('$data = $request->validate([]);', 2, false);
@@ -217,9 +215,8 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
     {
         if ($this->option('request')) {
             $request = $this->option('request');
-            $namespacedRequest = "App\Http\Requests\\$request";
 
-            if (!class_exists($namespacedRequest)) {
+            if (!file_exists(app_path("Http\\Requests\\$request.php"))) {
                 if ($this->confirm("A {$request} request does not exist. Do you want to generate it?", true)) {
                     $this->call('xmake:request', [
                         'name' => $request,
@@ -238,9 +235,8 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
     {
         if ($this->option('resource')) {
             $resource = $this->option('resource');
-            $namespacedResource = "App\Http\Resource\\$resource";
 
-            if (!class_exists($namespacedResource)) {
+            if (!file_exists(app_path("Http\\Resources\\$resource.php"))) {
                 if ($this->confirm("A {$resource} resource does not exist. Do you want to generate it?", true)) {
                     $this->call('xmake:resource', [
                         'name' => $resource,

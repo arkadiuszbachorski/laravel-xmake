@@ -1,6 +1,6 @@
 <?php
 
-namespace ArkadiuszBachorski\Xmake\Commands;
+namespace ArkadiuszBachorski\Xmake\Commands\MakeCommands;
 
 use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;

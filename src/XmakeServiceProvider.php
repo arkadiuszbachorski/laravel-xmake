@@ -2,14 +2,14 @@
 
 namespace ArkadiuszBachorski\Xmake;
 
-use ArkadiuszBachorski\Xmake\Commands\ControllerMakeCommand;
-use ArkadiuszBachorski\Xmake\Commands\ModelMakeCommand;
-use ArkadiuszBachorski\Xmake\Commands\FactoryMakeCommand;
-use ArkadiuszBachorski\Xmake\Commands\MigrationMakeCommand;
-use ArkadiuszBachorski\Xmake\Commands\ResourceMakeCommand;
-use ArkadiuszBachorski\Xmake\Commands\SeederMakeCommand;
-use ArkadiuszBachorski\Xmake\Commands\RequestMakeCommand;
-use ArkadiuszBachorski\Xmake\Commands\XmakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\MakeCommands\ControllerMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\MakeCommands\ModelMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\MakeCommands\FactoryMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\MakeCommands\MigrationMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\MakeCommands\ResourceMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\MakeCommands\SeederMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\MakeCommands\RequestMakeCommand;
+use ArkadiuszBachorski\Xmake\Commands\MakeCommands\XmakeCommand;
 use Illuminate\Support\ServiceProvider;
 
 
