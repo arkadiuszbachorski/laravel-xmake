@@ -238,9 +238,9 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
     {
         if ($this->option('resource')) {
             $resource = $this->option('resource');
-            $namespacedRequest = "App\Http\Requests\\$resource";
+            $namespacedResource = "App\Http\Resource\\$resource";
 
-            if (!class_exists($namespacedRequest)) {
+            if (!class_exists($namespacedResource)) {
                 if ($this->confirm("A {$resource} resource does not exist. Do you want to generate it?", true)) {
                     $this->call('xmake:resource', [
                         'name' => $resource,
