@@ -56,7 +56,7 @@ php artisan xmake -i --fields=title,foo,bar --modelName=Foobar --model --request
 
 Result
   
-_Controller_
+_FoobarController.php_
 
 ```php
 <?php
@@ -155,7 +155,7 @@ class FoobarController extends Controller
 }
 ```
   
-_Model_
+_Foobar.php_
 
 ```php
 <?php
@@ -170,7 +170,7 @@ class Foobar extends Model
 }
 ```
   
-_Request_
+_FoobarRequest.php_
 
 ```php
 <?php
