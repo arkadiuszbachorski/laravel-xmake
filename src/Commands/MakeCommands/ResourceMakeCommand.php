@@ -53,7 +53,7 @@ class ResourceMakeCommand extends ExtendedGeneratorCommand
     protected function buildFieldsReplacements(array $replace)
     {
         if ($this->option('fields')) {
-            $fields = $this->getFields()->buildRequest();
+            $fields = $this->getFields()->buildResource();
         } else {
             $fields = $this->prefix("//", 2, true);
         }
