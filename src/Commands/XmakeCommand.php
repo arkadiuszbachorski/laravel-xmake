@@ -45,6 +45,8 @@ class XmakeCommand extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $this->permissions = config('xmake.createEverything');
     }
 
     protected function hasPermission(string $key)
