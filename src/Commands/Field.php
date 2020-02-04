@@ -32,7 +32,7 @@ class Field
 
     protected function prepareFields()
     {
-        $this->prefixIfElementIsArray();
+        $this->parseValidationToArray();
         $this->replaceDatabaseName();
         $this->addNullableToDatabaseIfAppearsInValidation();
     }
@@ -49,7 +49,7 @@ class Field
         $this->database = str_replace('NAME', "'{$this->name}'", $this->database);
     }
 
-    protected function prefixIfElementIsArray()
+    protected function parseValidationToArray()
     {
         $validation = $this->validation;
         if ($validation) {
@@ -62,7 +62,7 @@ class Field
 
     protected function checkIfValidationIsArray($validation)
     {
-        return !preg_match('/^\[/m', $validation);
+        return preg_match('/^\[/m', $validation);
     }
 
     public function arraySyntax($key, $value)
