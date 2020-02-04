@@ -210,7 +210,7 @@ class XmakeCommand extends Command
 
     protected function createResource()
     {
-        if ($this->hasPermission('resource') && !$this->isApi) {
+        if ($this->hasPermission('resource') && $this->isApi) {
             $name = $this->askForFilename("{$this->modelName}Resource", 'Resource name');
             $args = [
                 'name' => $name,
