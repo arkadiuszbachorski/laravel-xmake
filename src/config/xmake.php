@@ -37,6 +37,10 @@ return [
         // Flag that indicates whether resource fields should be parsed to camelCase
         'camelizeFields' => true,
     ],
+    'validation' => [
+        // It enables parsing pipe syntax (i.e. "string|nullable") to array
+        'parseArray' => true,
+    ],
     // You can change what will be created if you select "create everything"/"all" option
     'createEverything' => [
         'model' => true,

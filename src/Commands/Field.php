@@ -39,7 +39,7 @@ class Field
 
     protected function addNullableToDatabaseIfAppearsInValidation()
     {
-        if (strpos($this->validation, 'nullable' !== false) && strpos($this->database, 'nullable()') === "false") {
+        if (strpos($this->validation, 'nullable' !== false) && strpos($this->database, 'nullable()') === false) {
             $this->database.='->nullable()';
         }
     }
@@ -53,16 +53,25 @@ class Field
     {
         $validation = $this->validation;
         if ($validation) {
-            if ($this->checkIfValidationIsArray($validation)) {
-                $validation = "'$validation'";
+            if (!preg_match('/^\[/m', $validation)) {
+                if (config('xmake.validation.parseArray')) {
+                    $validationFields = explode("|", $validation);
+                    $lastKey = array_key_last($validationFields);
+                    $newValidation = "[";
+                    foreach ($validationFields as $key => $validationField) {
+                        $newValidation .= "'$validationField'";
+                        if ($key !== $lastKey) {
+                            $newValidation .= ', ';
+                        }
+                    }
+                    $newValidation .= "]";
+                    $validation = $newValidation;
+                } else {
+                    $validation = "'$validation'";
+                }
             }
             $this->validation = $validation;
         }
-    }
-
-    protected function checkIfValidationIsArray($validation)
-    {
-        return preg_match('/^\[/m', $validation);
     }
 
     public function arraySyntax($key, $value)
