@@ -36,8 +36,8 @@ class Field
     {
         $this->replaceDatabaseName();
 
-        $this->guessValidationBasedOnDatabase();
         $this->parseValidationToArray();
+        $this->guessValidationBasedOnDatabase();
         $this->addNullableToDatabaseIfAppearsInValidation();
     }
 
@@ -102,7 +102,7 @@ class Field
             $validation .= "'$append']";
         } else {
             $validation = Str::replaceLast("'", "", $validation);
-            if ($validation !== "'") {
+            if ($validation !== "'" && $validation !== "") {
                 $validation .= '|';
             }
             $validation .= $append."'";
