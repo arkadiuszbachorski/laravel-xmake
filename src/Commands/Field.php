@@ -101,9 +101,7 @@ class Field
             }
             $validation .= "'$append']";
         } else {
-            dump($validation);
             $validation = Str::replaceLast("'", "", $validation);
-            dump($validation);
             if ($validation !== "'") {
                 $validation .= '|';
             }
@@ -121,7 +119,7 @@ class Field
     {
         if (!config('xmake.database.addNullableIfAppearsInValidation')) return;
 
-        if (strpos($this->validation, 'nullable' !== false) && strpos($this->database, 'nullable()') === false) {
+        if (Str::contains($this->validation, 'nullable') && !Str::contains($this->database, 'nullable()')) {
             $this->database.='->nullable()';
         }
     }
