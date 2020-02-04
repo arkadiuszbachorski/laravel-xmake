@@ -110,30 +110,8 @@ class MigrationMakeCommand extends ExtendedGeneratorCommand
     protected function buildFieldsReplacements(array $replace)
     {
         if ($this->option('fields')) {
-            $this->getFieldsDataIfEmpty();
-            $data = '';
-            $first = true;
-            foreach ($this->parsedOptionFields as $field) {
-                $item = $this->getElementFromFields($field);
-                $exp = $item['database'];
-                if ($exp !== '') {
-                    $exp = str_replace('NAME', "'".$item['name']."'", $exp);
-                    if (strpos($item['validation'], 'nullable') !== false) {
-                        $exp.='->nullable()';
-                    }
-                    $parsed = $this->prefix("\$table->{$exp};", 3, false);
-                } else {
-                    $parsed = $this->prefix("\$table->('{$item['name']}');", 3, false);
-                }
-
-                if ($first) {
-                    $first = false;
-                } else {
-                    $parsed = "\r\n$parsed";
-                }
-
-                $data .= $parsed;
-            }
+            $fields = $this->getFields();
+            $data = $fields->buildMigration();
         }
 
         return array_merge($replace, [

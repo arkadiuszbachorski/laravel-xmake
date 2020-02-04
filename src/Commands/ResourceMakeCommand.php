@@ -53,14 +53,8 @@ class ResourceMakeCommand extends ExtendedGeneratorCommand
 
     protected function buildFieldsReplacements(array $replace)
     {
-        $fields = '';
         if ($this->option('fields')) {
-            $this->getFieldsDataIfEmpty();
-            foreach ($this->parsedOptionFields as $field) {
-                $item = $this->getElementFromFields($field);
-                $camelName = config('xmake.resource.camelizeFields') ? Str::camel($item['name']) : $item['name'];
-                $fields .= $this->prefix("'$camelName' => \$this->{$item['name']},", 3, true);
-            }
+            $fields = $this->getFields()->buildRequest();
         } else {
             $fields = $this->prefix("//", 2, true);
         }

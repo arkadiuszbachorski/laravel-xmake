@@ -167,9 +167,8 @@ class ControllerMakeCommand extends ExtendedGeneratorCommand
     protected function buildFieldsReplacements(array $replace)
     {
         if ($this->option('fields')) {
-            $this->getFieldsDataIfEmpty();
             $validation = $this->prefix('$data = $request->validate([' , 2, false);
-            $validation .= $this->buildValidation();
+            $validation .= $this->getFields()->buildValidation();
             $validation .= $this->prefix("]);", 2, true);
         } else {
             $validation = $this->prefix('$data = $request->validate([]);', 2, false);

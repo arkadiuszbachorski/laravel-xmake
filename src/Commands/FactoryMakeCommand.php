@@ -67,27 +67,15 @@ class FactoryMakeCommand extends ExtendedGeneratorCommand
     protected function buildFieldsReplacements(array $replace)
     {
         if ($this->option('fields')) {
-            $this->getFieldsDataIfEmpty();
-            $validation = '';
-            $first = true;
-            foreach ($this->parsedOptionFields as $field) {
-                $item = $this->getElementFromFields($field);
-                if ($first) {
-                    $parsed = $this->prefix("'{$item['name']}' => \$faker->${item['factory']},", 2, false);
-                    $first = false;
-                } else {
-                    $parsed = $this->prefix("'{$item['name']}' => \$faker->${item['factory']},", 2);
-                }
-                $validation .= $parsed;
-            }
+            $fields = $this->getFields();
+            $factory = $fields->buildFactory();
         } else {
-            $validation = $this->prefix("//", 2, false);
+            $factory = $this->prefix("//", 2, true);
         }
 
         return array_merge($replace, [
-            'DummyRules' => $validation,
+            'DummyRules' => $factory,
         ]);
-
     }
 
     /**

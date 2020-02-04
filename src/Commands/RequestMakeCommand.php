@@ -53,8 +53,7 @@ class RequestMakeCommand extends ExtendedGeneratorCommand
     protected function buildFieldsReplacements(array $replace)
     {
         if ($this->option('fields')) {
-            $this->getFieldsDataIfEmpty();
-            $validation = $this->buildValidation();
+            $validation = $this->getFields()->buildValidation(3);
         } else {
             $validation = $this->prefix("//", 2, false);
         }
