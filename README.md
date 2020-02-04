@@ -242,6 +242,10 @@ _config/xmake.php_
         // Path where fields.php is expected to exist. This path affects vendors publishing too.
         'fields' => '/resources/xmake',
     ],
+    'database' => [
+        // Flag that indicates whether ->nullable() should be automatically added if provided in validation
+        'addNullableIfAppearsInValidation' => true,
+    ],
     'controller' => [
         // You can change PHPDoc methods captions there
         'docs' => [
@@ -273,8 +277,10 @@ _config/xmake.php_
         'camelizeFields' => true,
     ],
     'validation' => [
-        // It enables parsing pipe syntax (i.e. "string|nullable") to array syntax
+        // It enables parsing pipe syntax (i.e. "string|nullable") to array
         'parseArray' => true,
+        // It enables guessing validation based on database field. I.e. string('foobar') parses to 'string' validation.
+        'guessBasedOnDatabase' => true,
     ],
     // You can change what will be created if you select "create everything"/"all" option
     'createEverything' => [
@@ -324,6 +330,8 @@ Fields file can be found in _/resources/xmake/fields.php_ path by default. It's 
 You don't have to fill in all the data about each field. The only required one is the "name". If you enter unknown field to --fields option, it will be treated as the key is the name and the other parameters are empty.
 
 This means you can completely ignore this file if you would like just list every field in created files.
+
+However Xmake has a few self-filling and data processing mechanisms as you could see in config. If you provide database field there is probability of getting at least some of repetitive things filled in validation and factory.
 
 ### Commands
 
