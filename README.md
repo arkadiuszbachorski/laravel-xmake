@@ -1,4 +1,4 @@
-<img src='https://raw.githubusercontent.com/arkadiuszbachorski/laravel-xmake/master/media/logo.svg' width='300'/>
+<img src='https://raw.githubusercontent.com/arkadiuszbachorski/laravel-xmake/master/media/logo.png' width='300'/>
 
 Additional Laravel Artisan xmake command for faster resource creating and scaffolding. Created to speed up developing process and stop typing same things in various places.
 
