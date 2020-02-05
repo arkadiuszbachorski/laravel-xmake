@@ -1,4 +1,5 @@
-# Laravel Xmake
+<img src='https://svgshare.com/i/HmK.svg' width='300'/>
+
 Additional Laravel Artisan xmake command for faster resource creating and scaffolding. Created to speed up developing process and stop typing same things in various places.
 
 ## Table of contents
@@ -215,7 +216,7 @@ Pretty nice, huh? For more details and possibilities, see documentation.
 - Guessing factory based on validation and migration field type
 - Guessing migration field type based on validation
 
-## Documentation
+# Documentation
 
 - [Config](#config)
 - [Stubs](#stubs)
@@ -231,7 +232,7 @@ Pretty nice, huh? For more details and possibilities, see documentation.
     - [xmake:seeder](#xmakeseeder)
     - [Summary](#summary)
 
-### Config
+## Config
 
 _config/xmake.php_
 ```php
@@ -295,11 +296,11 @@ _config/xmake.php_
 ];
 ```
 
-### Stubs
+## Stubs
 
 Stubs can be found in _/resources/xmake/stubs_ path by default. You will see a few text files there. All of them contain "Dummy..." content, that means it will be replaced by generated things. Everything what isn't prefixed with "Dummy..." can be customised by you.
 
-### Fields
+## Fields
 
 Fields file can be found in _/resources/xmake/fields.php_ path by default. It's a source of data about fields.
 
@@ -333,7 +334,7 @@ This means you can completely ignore this file if you would like just list every
 
 However Xmake has a few self-filling and data processing mechanisms as you could see in config. If you provide database field there is probability of getting at least some of repetitive things filled in validation and factory.
 
-### Commands
+## Commands
 
 Every command has --help, so you can check available options faster than checking here. 
 
@@ -350,52 +351,52 @@ In examples below I assume default config and file _fields.php_ contains:
 ];
 ```
 
-#### xmake
+### xmake
 
 It's a command that will be used most often, because it gives powerful scaffolding ability. It can call every single command listed below. 
 
 Xmake by default runs interactive shell experience. If you would like to create resources even faster - use --instant flag. Results are almost the same, but you can't name your files independently. Probably you wouldn't do it anyway, because auto-naming works great.
 
-##### Available options
+#### Available options
 
-###### --instant -i 
+##### --instant -i 
 Use this flag if you want don't want to use interactive shell.
 
-###### --modelName
+##### --modelName
 This parameter is required, almost every command uses it.
 
-###### --fields
+##### --fields
 Get fields keys array, use comma as separator
 
-###### --all
+##### --all
 Create everything based on your config. By default - it's literally everything.
 
-###### --api
+##### --api
 Create API version of Controller and enable resource creating
 
-###### --model
+##### --model
 Create model with given modelName
 
-###### --migration
+##### --migration
 Create migration with given fields prepared or filled
 
-###### --factory
+##### --factory
 Create factory with given fields prepared of filled
 
-###### --seeder
+##### --seeder
 Create seeder that invokes factory
 
-###### --request
+##### --request
 Create request with given fields prepared or filled
 
-###### --resource
+##### --resource
 Create resource with given fields prepared of filled
 
-###### --controller
+##### --controller
 Create controller with various options - request, resource and api, based on your previous choices.
 
 
-#### xmake:model
+### xmake:model
 It simply creates model.
 
 <details>
@@ -423,28 +424,28 @@ class Foobar extends Model
 
 </details>
 
-#### xmake:controller
+### xmake:controller
 
 It creates controller with:
 - basic CRUD operations for your model
 - Blade views or REST API
 - Validation inside or injected
 
-##### Available options
+#### Available options
 
-###### --model -m
+##### --model -m
 It's required. You must provide your models name.
 
-###### --api
+##### --api
 It's a flag that changes responses from Blade views to REST API.
 
-###### --fields
+##### --fields
 You can provide fields for validation there.
 
-###### --resource -x
+##### --resource -x
 It injects given resource to index, store, show, edit and update returns. It does nothing when no --api flag provided.
 
-###### --request -r 
+##### --request -r 
 It injects given request to create and update methods. If the file doesn't exist - it can be created with fields you provided. 
 
 <details>
@@ -566,13 +567,13 @@ class FoobarController extends Controller
 
 </details>
 
-#### xmake:resource
+### xmake:resource
 
 It creates resource with given fields filled. It makes fields name camelCase by default, however it can be changed in config.
 
-##### Available options
+#### Available options
 
-###### --fields
+##### --fields
 
 <details>
 <summary>Example</summary>
@@ -614,16 +615,16 @@ class FoobarResource extends JsonResource
 
 
 
-#### xmake:migration
+### xmake:migration
 
 It creates migration with given fields prepared or filled.
 
-##### Available options
+#### Available options
 
-###### --create
+##### --create
 Table name
 
-###### --fields
+##### --fields
 
 <details>
 <summary>Example</summary>
@@ -673,7 +674,7 @@ class CreateFoobarTable extends Migration
 </details>
 
 
-#### xmake:request
+### xmake:request
 
 It creates request with given validation rules prepared or filled.
 
@@ -722,7 +723,7 @@ class FoobarRequest extends FormRequest
 </details>
 
 
-#### xmake:factory
+### xmake:factory
 
 It creates factory with given factory rules prepared or filled.
 
@@ -752,16 +753,16 @@ $factory->define(Foobar::class, function (Faker $faker) {
 ```
 </details>
 
-#### xmake:seeder
+### xmake:seeder
 
 It creates seeder with given model.
 
-##### Available options
+#### Available options
 
-###### --model
+##### --model
 Model name.
 
-###### --amount
+##### --amount
 Number of models to be created in seeder. Default value can be changed in config.
 
 <details>
@@ -795,7 +796,7 @@ class FoobarSeeder extends Seeder
 </details>
 
 
-#### Summary
+### Summary
 
 All the above files can be created with just one command:
 
