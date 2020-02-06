@@ -24,7 +24,7 @@ class DummyClass extends Controller
     /**
      * DummyCreateDoc
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function DummyCreateMethod()
     {
@@ -88,7 +88,7 @@ DummyValidation
      * DummyDestroyDoc
      *
      * @param  DummyModelClass $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
     public function DummyDestroyMethod(DummyModelClass $DummyModelVariable)
