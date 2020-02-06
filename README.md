@@ -49,6 +49,11 @@ php artisan vendor:publish --tag=xmake-resources
 
 ## Usage
 
+**You'd rather see than read?**
+
+[![Everything Is AWESOME](https://raw.githubusercontent.com/arkadiuszbachorski/laravel-xmake/master/media/yt.png)](https://www.youtube.com/watch?v=v_Zf2EdTer4 "Laravel Xmake - speed up development process and scaffold app quicker
+")
+
 Example:
 
 ```shell
