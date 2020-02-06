@@ -24,7 +24,7 @@ class DummyClass extends Controller
     /**
      * DummyCreateDoc
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function DummyCreateMethod()
     {
@@ -48,7 +48,7 @@ class DummyClass extends Controller
      * DummyShowDoc
      *
      * @param  DummyModelClass $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @return DummyResource
      */
     public function DummyShowMethod(DummyModelClass $DummyModelVariable)
     {
@@ -59,7 +59,7 @@ class DummyClass extends Controller
      * DummyEditDoc
      *
      * @param  DummyModelClass $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @return DummyResource
      */
     public function DummyEditMethod(DummyModelClass $DummyModelVariable)
     {
@@ -71,7 +71,7 @@ class DummyClass extends Controller
      *
      * @param  DummyRequest  $request
      * @param  DummyModelClass $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @return DummyResource
      */
     public function DummyUpdateMethod(DummyRequest $request, DummyModelClass $DummyModelVariable)
     {
@@ -84,7 +84,7 @@ class DummyClass extends Controller
      * DummyDestroyDoc
      *
      * @param  DummyModelClass $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
     public function DummyDestroyMethod(DummyModelClass $DummyModelVariable)
